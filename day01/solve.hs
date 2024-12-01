@@ -14,14 +14,14 @@ main = do
     putStr (show result2)
 
 solve1 :: [Int] -> Int
-solve1 = sum . (L.map (\(x, y) -> abs (x - y))) . uncurry zip . (\(xs, ys) -> ((sort xs), (sort ys))) . (group ([], []))
+solve1 = sum . L.map (abs . uncurry (-)) . uncurry zip . (\(xs, ys) -> ((sort xs), (sort ys))) . group ([], [])
     where
         group gs [] = gs
         group (xs, ys) (x:y:xys) = group ((x:xs), (y:ys)) xys
 
 
 solve2 :: [Int] -> Int
-solve2 = (\(xs, counts) -> sum (L.map (\x -> x * (findWithDefault 0 x counts)) xs)) . (groupAndCount ([], empty))
+solve2 = (\(xs, counts) -> sum (L.map (\x -> x * (findWithDefault 0 x counts)) xs)) . groupAndCount ([], empty)
     where
         groupAndCount :: ([Int], Map Int Int) -> [Int] -> ([Int], Map Int Int)
         groupAndCount gs [] = gs
